@@ -1,4 +1,4 @@
-import { Table, Model, DataType, PrimaryKey } from "sequelize-typescript";
+import { DataType } from "sequelize-typescript";
 import { sequelize } from "../../config/database-config";
 
 export const Chef = sequelize.define("chefs",

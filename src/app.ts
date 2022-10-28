@@ -1,5 +1,4 @@
-import express, { json, NextFunction, urlencoded } from "express";
-import { sequelize } from "./config/database-config";
+import express, { json, urlencoded } from "express";
 import startup from "./config/startup-config";
 import router from "./routes";
 
