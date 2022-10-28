@@ -10,14 +10,14 @@ const startup = () => {
       console.log(e.message);
     });
 
-    sequelize
+  sequelize
     .sync()
     .then(() => {
-        console.log("Sequelize: Database sync completed");
+      console.log("Sequelize: Database sync completed");
     })
     .catch((e: Error) => {
       console.log(e.message);
     });
-}
+};
 
 export default startup;

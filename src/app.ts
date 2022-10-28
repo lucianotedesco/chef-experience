@@ -1,5 +1,5 @@
 import express, { json, urlencoded } from "express";
-import startup from "./config/startup-config";
+import startup from "./services/startup";
 import router from "./routes";
 
 const app = express();
@@ -23,5 +23,3 @@ app.use((
 app.listen(port, () => {
   console.log(`Chef Experience API: Hosted on http://localhost:${port}`);
 });
-
-
