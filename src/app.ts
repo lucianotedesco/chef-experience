@@ -1,23 +1,18 @@
 import express, { json, urlencoded } from "express";
 import startup from "./services/startup";
-import router from "./routes";
+import router from "./middlewares/routes-middleware";
+import errorHandler from "./middlewares/error-handler-middleware"
 
 const app = express();
 const port = 3000;
 
 startup();
 
-app.use("/chefs", router)
+app.use(express.json());
+app.use("/meals", router);
 
-app.use(json())
-app.use(urlencoded({extended: true}))
-
-app.use((
-  err: Error,
-  req: express.Request,
-  res: express.Response
-) => {
-  res.status(500).json({message: err.message});
+app.use((err, req, res, next) => {
+  errorHandler(res, err);
 });
 
 app.listen(port, () => {

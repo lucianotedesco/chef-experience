@@ -10,7 +10,7 @@ export const Chef = sequelize.define("chefs",
   {
     id: {
       type: DataType.INTEGER,
-      primaryKey: true,
+      primaryKey: true
     },
     name: {
       type: DataType.TEXT,
@@ -36,41 +36,4 @@ export const Customer = sequelize.define("customers",
   }
 );
 
-export const Meals = sequelize.define("meals",
-  {
-    id: {
-      type: DataType.INTEGER,
-      primaryKey: true,
-    },
-    name: {
-      type: DataType.TEXT,
-    },
-    chef_id: {
-        type: DataType.TEXT,
-    },
-  },
-  {
-    timestamps: false,
-  }
-);
 
-export const MealsRate = sequelize.define("meals_rate",
-  {
-    id: {
-      type: DataType.INTEGER,
-      primaryKey: true,
-    },
-    meal_id: {
-      type: DataType.TEXT,
-    },
-    customer_id: {
-        type: DataType.TEXT,
-    },
-    rate: {
-        type: DataType.INTEGER
-    }
-  },
-  {
-    timestamps: false,
-  }
-);
