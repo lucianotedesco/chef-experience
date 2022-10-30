@@ -11,7 +11,7 @@ export class StartUp {
         console.log(e.message);
       });
 
-    const syncSequelize = true;
+    const syncSequelize = false;
     if (syncSequelize) {
       sequelize
         .sync()

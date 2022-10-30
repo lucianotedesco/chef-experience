@@ -10,4 +10,17 @@ export class MealsRatesRepository {
       rate: dto.rate,
     });
   }
+
+  async getAvg(mealId: number) {
+    const result = await MealsRates.findAndCountAll()
+    if (result.count == 0)
+      return 0;
+
+    // const totalSum = result.rows.reduce((sum, mealRate) => {
+    //   return sum + 
+    // }
+
+
+    // rates.rate
+  }
 }

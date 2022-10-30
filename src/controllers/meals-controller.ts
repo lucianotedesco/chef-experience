@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { MealCreateDto } from "../models/dtos/meal-create-dto";
 import { MealRateDto } from "../models/dtos/meal-rate-dto";
-import { DtoMappers } from "../services/dto-mapper-service";
+import { DtoMappers } from "../config/dto-mapper-config";
 import { MealsService } from "../services/meals-service";
 
 export class MealsController {
@@ -32,7 +32,7 @@ export class MealsController {
         DtoMappers.mealCreateDtoMapper.deserialize({ ...req.body });
 
       await this.mealsService.create(mealCreateDto);
-      return res.status(200).json({ message: "Meal rated successfully" });
+      return res.status(200).json({ message: "Meal created successfully" });
     } catch (err) {
       next(err);
     }

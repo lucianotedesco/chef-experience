@@ -1,15 +1,11 @@
 import { DataType } from "sequelize-typescript";
 import { sequelize } from "../../config/database-config";
+import { Customers } from "./customer";
+import { Meals } from "./meals";
 
 export const MealsRates = sequelize.define(
   "meals_rate",
   {
-    meal_id: {
-      type: DataType.INTEGER,
-    },
-    customer_id: {
-      type: DataType.INTEGER,
-    },
     rate: {
       type: DataType.INTEGER,
     },
@@ -18,3 +14,13 @@ export const MealsRates = sequelize.define(
     timestamps: false,
   }
 );
+
+MealsRates.belongsTo(Meals, {
+  foreignKey: "meal_id",
+  targetKey: "id",
+});
+
+MealsRates.belongsTo(Customers, {
+  foreignKey: "customer_id",
+  targetKey: "id",
+});
