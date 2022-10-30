@@ -7,7 +7,7 @@ export class MealsController {
   getById: RequestHandler = async (req, res, next) => {
     const { id } = req.params;
     try {
-      const meal = await this.mealsService.getById(id);
+      const meal = await this.mealsService.getById(Number(id));
       return res.status(200).json({ meals: meal });
     } catch (err) {
       next(err);
@@ -22,16 +22,6 @@ export class MealsController {
       next(err);
     }
   }
-
-  create: RequestHandler = async (req, res, next) => {
-    try {
-      await this.mealsService.create({ ...req.body });
-
-      return res.status(200).json({ message: "Meal created successfully" });
-    } catch (err) {
-      next(err);
-    }
-  };
 
   rate: RequestHandler = async (req, res, next) => {
     try {

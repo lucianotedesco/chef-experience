@@ -1,4 +1,4 @@
-import { sequelize } from "../config/database-config";
+import { sequelize } from "./database-config";
 
 const startup = () => {
   

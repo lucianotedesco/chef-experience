@@ -1,5 +1,5 @@
 import express, { json, urlencoded } from "express";
-import startup from "./services/startup";
+import startup from "./config/startup";
 import router from "./middlewares/routes-middleware";
 import errorHandler from "./middlewares/error-handler-middleware"
 

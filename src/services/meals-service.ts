@@ -1,14 +1,11 @@
-import { Injectable } from "injection-js";
-import { Sequelize } from "sequelize";
-import { Op } from "sequelize";
-import { Meals } from "../models/entities/meals";
-import { MealsRate } from "../models/entities/meals-rates";
 import { BusinessError } from "../models/error-types";
+import { MealsRepository } from "../repositories/meals-repository";
 
-@Injectable()
 export class MealsService {
-  async getById(id: string) {
-    const meal = await Meals.findByPk(id);
+  constructor(private readonly _mealsRepository: MealsRepository) {}
+
+  async getById(id: number) {
+    const meal = await this._mealsRepository.findById(id);
     if (!meal)
       throw new BusinessError(
         `Couldn't find a meal with the specified id ${id}:`
@@ -18,39 +15,22 @@ export class MealsService {
   }
 
   async getAll() {
-    const meal = await Meals.findAll();
+    const meal = await this._mealsRepository.findAll();
     if (!meal) throw new BusinessError(`Couldn't find any meals`);
 
     return meal;
   }
 
-  async create(reqBody) {
-    return await Meals.create({ id: reqBody.id, name: reqBody.name });
-  }
-
   async rate(reqBody) {
-    this.canRateMeal(reqBody);
-
-    const mealRate = await MealsRate.create({
-      meal_id: reqBody.meal_id,
-      customer_id: reqBody.customer_id,
-      rate: reqBody.rate,
-    });
+    await this.canRateMeal(reqBody);
+    await this._mealsRepository.create(reqBody)
   }
 
   private async canRateMeal(reqBody) {
     const validRates = [1, 2, 3, 4, 5];
 
-    const firstMeal = await MealsRate.findOne({
-      where: {
-        [Op.and]: [
-          { meal_id: reqBody.meal_id },
-          { customer_id: reqBody.customer_id },
-        ],
-      },
-    });
-
-    if (!firstMeal)
+    const previousRate = await this._mealsRepository.findOne(reqBody);
+    if (previousRate)
       throw new BusinessError("You can't rate a meal more than once");
 
     if (!validRates.includes(reqBody.rate))
