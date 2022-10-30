@@ -11,24 +11,3 @@ export class MealRateDto {
   @include()
   rate: number;
 }
-
-// import { DtoError } from "../error-types";
-
-// export class MealRateDto {
-//   constructor(
-//     public readonly meal_id: number,
-//     public readonly customer_id: number,
-//     public readonly rate: number
-//   ) {}
-
-//   static from(body) {
-//     this.validate(body);
-//     return new MealRateDto(body.meal_id, body.customer_id, body.rate);
-//   }
-
-//   private static validate(body) {
-//     if (!body.meal_id || !body.customer_id || !body.rate) {
-//       throw new DtoError("missing properties");
-//     }
-//   }
-// }

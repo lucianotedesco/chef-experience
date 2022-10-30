@@ -1,5 +1,5 @@
 import { Op } from "sequelize";
-import { MealRateDto } from "../models/dtos/meal-rate-dto";
+import { MealCreateDto } from "../models/dtos/meal-create-dto";
 import { Meals } from "../models/entities/meals";
 import { MealsRates } from "../models/entities/meals-rates";
 
@@ -23,11 +23,10 @@ export class MealsRepository {
     });
   }
 
-  async create(dto: MealRateDto) {
-    return MealsRates.create({
-      meal_id: dto.meal_id,
-      customer_id: dto.customer_id,
-      rate: dto.rate,
+  async create(dto: MealCreateDto) {
+    return Meals.create({
+      name: dto.name,
+      chef_id: dto.chef_id
     });
   }
 }
