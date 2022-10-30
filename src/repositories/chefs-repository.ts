@@ -1,6 +1,5 @@
-import { Op } from "sequelize";
 import { MealCreateDto } from "../models/dtos/meal-create-dto";
-import { Chefs } from "../models/entities/chef";
+import { Chefs } from "../models/entities/chefs";
 
 export class ChefsRepository {
   async findById(id: number) {

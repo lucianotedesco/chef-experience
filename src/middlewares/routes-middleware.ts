@@ -1,9 +1,14 @@
 import { Router } from "express";
+import { AuthController } from "../controllers/auth-controller";
 import { MealsController } from "../controllers/meals-controller";
 import { ChefsRepository } from "../repositories/chefs-repository";
 import { MealsRatesRepository } from "../repositories/meals-rates-repository";
 import { MealsRepository } from "../repositories/meals-repository";
+import { UsersRepository } from "../repositories/users-repository";
+import { AuthService } from "../services/auth-service";
 import { MealsService } from "../services/meals-service";
+
+const router = Router();
 
 const mealsController = new MealsController(
   new MealsService(
@@ -12,25 +17,18 @@ const mealsController = new MealsController(
     new ChefsRepository()
   )
 );
-const router = Router();
 
-router.get("/:id", mealsController.getById);
-router.get("/", mealsController.getAll);
-router.post("/rate", mealsController.rate);
-router.post("/", mealsController.create);
+const usersController = new AuthController(
+  new AuthService(new UsersRepository())
+);
+
+const mealsRoute = "/meals";
+router.get(`${mealsRoute}/`, mealsController.getAll);
+router.get(`${mealsRoute}/rates`, mealsController.getAllRates);
+router.post(`${mealsRoute}/`, mealsController.create);
+router.post(`${mealsRoute}/rate`, mealsController.rate);
+
+const authRoute = "/auth";
+router.post(`${authRoute}/register`, usersController.register);
 
 export default router;
-
-// export class RouterConfig {
-//   private readonly router(): Router {}
-
-//   constructor(private readonly mealsController: MealsController) {
-//     this.router = Router();
-
-//     this.router.get("/:id", mealsController.getById);
-//     this.router.get("/", mealsController.getAll);
-//     this.router.post("/", mealsController.create);
-//   }
-// }
-
-// export default RouterConfig;

@@ -1,5 +1,6 @@
 import { DataType } from "sequelize-typescript";
 import { sequelize } from "../../config/database-config";
+import { Users } from "./users";
 
 export const Customers = sequelize.define(
   "customers",
@@ -12,3 +13,8 @@ export const Customers = sequelize.define(
     timestamps: false,
   }
 );
+
+Customers.belongsTo(Users, {
+  foreignKey: "user_id",
+  targetKey: "id",
+});

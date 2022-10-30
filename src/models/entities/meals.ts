@@ -1,12 +1,15 @@
 import { DataType } from "sequelize-typescript";
 import { sequelize } from "../../config/database-config";
-import { Chefs } from "./chef";
+import { Chefs } from "./chefs";
 
 export const Meals = sequelize.define(
   "meals",
   {
     name: {
       type: DataType.TEXT,
+    },
+    rate_avg: {
+      type: DataType.INTEGER,
     }
   },
   {

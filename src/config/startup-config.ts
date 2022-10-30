@@ -1,6 +1,6 @@
 import { sequelize } from "./database-config";
 
-export class StartUp {
+export default class StartUp {
   static setup() {
     sequelize
       .authenticate()
@@ -14,7 +14,7 @@ export class StartUp {
     const syncSequelize = false;
     if (syncSequelize) {
       sequelize
-        .sync()
+        .sync({force: true})
         .then(() => {
           console.log("Sequelize: Database sync completed");
         })

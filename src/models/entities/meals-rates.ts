@@ -1,6 +1,6 @@
 import { DataType } from "sequelize-typescript";
 import { sequelize } from "../../config/database-config";
-import { Customers } from "./customer";
+import { Customers } from "./customers";
 import { Meals } from "./meals";
 
 export const MealsRates = sequelize.define(

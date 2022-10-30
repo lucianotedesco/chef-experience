@@ -12,25 +12,20 @@ export class MealsService {
     private readonly _chefsRepository: ChefsRepository
   ) {}
 
-  async getById(id: number) {
-    const meal = await this._mealsRepository.findById(id);
-    if (!meal)
-      throw new BusinessError(
-        `Couldn't find a meal with the specified id ${id}:`
-      );
-
-    return meal;
+  async getAll(chef_id?: number) {
+    return chef_id
+      ? await this._mealsRepository.findAll()
+      : await this._mealsRepository.findByChefId(chef_id);
   }
 
-  async getAll() {
-    const meal = await this._mealsRepository.findAll();
-    if (!meal) throw new BusinessError(`Couldn't find any meals`);
-
-    return meal;
+  async getAllRatings(chef_id?: number) {
+    return chef_id
+      ? await this._mealsRatesRepository.findAll()
+      : await this._mealsRatesRepository.findByChefId(chef_id);
   }
 
   async create(dto: MealCreateDto) {
-    await this.canCreateMeal(dto)
+    await this.canCreateMeal(dto);
     return await this._mealsRepository.create(dto);
   }
 
@@ -43,12 +38,19 @@ export class MealsService {
   async rate(dto: MealRateDto) {
     await this.canRateMeal(dto);
     await this._mealsRatesRepository.create(dto);
+
+    const avg = await this.getCurrentAverage(dto.meal_id);
+    return await this._mealsRepository.saveAvg(dto.meal_id, avg);
   }
 
   private async canRateMeal(dto) {
     const validRates = [1, 2, 3, 4, 5];
 
-    const previousRate = await this._mealsRepository.findOne(dto);
+    const meal = await this._mealsRepository.findById(dto.meal_id);
+    if (!meal)
+      throw new BusinessError("Can't find a meal for rate with the given id");
+
+    const previousRate = await this._mealsRatesRepository.findOne(dto);
     if (previousRate)
       throw new BusinessError("You can't rate a meal more than once");
 
@@ -56,5 +58,17 @@ export class MealsService {
       throw new BusinessError(
         "Valid ratings are only between one and five stars"
       );
+  }
+
+  private async getCurrentAverage(mealId: number): Promise<number> {
+    const result = await this._mealsRatesRepository.findByMealIdAndCountAll(
+      mealId
+    );
+
+    //we can improve this in the future by calculating it by incremental average
+    return (
+      result.rows.reduce((sum, mealRate) => sum + <number>mealRate["rate"], 0) /
+      result.count
+    );
   }
 }

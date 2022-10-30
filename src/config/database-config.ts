@@ -7,6 +7,6 @@ export const sequelize = new Sequelize(
   {
     host: "localhost",
     dialect: "postgres",
-    models: [__dirname + "/models"],
+    models: [__dirname + "/models"]
   }
 );
