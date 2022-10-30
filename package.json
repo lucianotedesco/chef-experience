@@ -17,10 +17,8 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
-    "body-parser": "^1.20.1",
+    "dto-mapper": "^0.2.3",
     "express": "^4.18.2",
-    "express-async-errors": "^3.1.1",
-    "injection-js": "^2.4.0",
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
     "sequelize": "^6.25.3",

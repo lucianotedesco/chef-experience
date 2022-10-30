@@ -1,3 +1,4 @@
+import { MealRateDto } from "../models/dtos/meal-rate-dto";
 import { BusinessError } from "../models/error-types";
 import { MealsRepository } from "../repositories/meals-repository";
 
@@ -21,19 +22,19 @@ export class MealsService {
     return meal;
   }
 
-  async rate(reqBody) {
-    await this.canRateMeal(reqBody);
-    await this._mealsRepository.create(reqBody)
+  async rate(dto: MealRateDto) {
+    await this.canRateMeal(dto);
+    await this._mealsRepository.create(dto)
   }
 
-  private async canRateMeal(reqBody) {
+  private async canRateMeal(dto) {
     const validRates = [1, 2, 3, 4, 5];
 
-    const previousRate = await this._mealsRepository.findOne(reqBody);
+    const previousRate = await this._mealsRepository.findOne(dto);
     if (previousRate)
       throw new BusinessError("You can't rate a meal more than once");
 
-    if (!validRates.includes(reqBody.rate))
+    if (!validRates.includes(dto.rate))
       throw new BusinessError(
         "Valid ratings are only between one and five stars"
       );

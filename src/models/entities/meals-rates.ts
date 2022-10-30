@@ -3,10 +3,6 @@ import { sequelize } from '../../config/database-config';
 
 export const MealsRates = sequelize.define("meals_rate",
   {
-    id: {
-      type: DataType.INTEGER,
-      primaryKey: true,
-    },
     meal_id: {
       type: DataType.INTEGER,
     },

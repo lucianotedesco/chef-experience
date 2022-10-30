@@ -5,7 +5,8 @@ export const Meals = sequelize.define("meals",
   {
     id: {
       type: DataType.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     name: {
       type: DataType.TEXT,

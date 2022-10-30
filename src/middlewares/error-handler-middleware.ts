@@ -1,10 +1,12 @@
-import { BusinessError, InternalError } from "../models/error-types";
+import { BusinessError, InternalError, DtoError } from "../models/error-types";
 
 const errorHandler = (res, err) => {
+  if (err instanceof DtoError)
+    return res.status(400).json({ parameters_error: err.message });
   if (err instanceof BusinessError)
-    res.status(400).json({ error: err.message });
+    return res.status(400).json({ business_error: err.message });
   if (err instanceof InternalError || err instanceof Error)
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
 };
 
 export default errorHandler;

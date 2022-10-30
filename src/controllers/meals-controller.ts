@@ -1,4 +1,6 @@
 import { RequestHandler } from "express";
+import { StartUp } from "../config/startup-config";
+import { MealRateDto } from "../models/dtos/meal-rate-dto";
 import { MealsService } from "../services/meals-service";
 
 export class MealsController {
@@ -25,9 +27,10 @@ export class MealsController {
 
   rate: RequestHandler = async (req, res, next) => {
     try {
-      await this.mealsService.rate({ ...req.body });
+      const mealRateDto: MealRateDto = StartUp.dtoMapper.deserialize({...req.body})
 
-      return res.status(200).json({ message: "Meal rated successfully" });
+      await this.mealsService.rate(mealRateDto);
+      return res .status(200).json({ message: "Meal rated successfully" });
     } catch (err) {
       next(err);
     }
