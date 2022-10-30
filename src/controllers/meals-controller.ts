@@ -1,5 +1,4 @@
 import { RequestHandler } from "express";
-import { StartUp } from "../config/startup-config";
 import { MealCreateDto } from "../models/dtos/meal-create-dto";
 import { MealRateDto } from "../models/dtos/meal-rate-dto";
 import { DtoMappers } from "../services/dto-mapper-service";
