@@ -3,6 +3,7 @@ import { MealCreateDto } from "../models/dtos/meal-create-dto";
 import { MealRateDto } from "../models/dtos/meal-rate-dto";
 import { DtoMappers } from "../config/dto-mapper-config";
 import { MealsService } from "../services/meals-service";
+import { AuthError, RoleError } from "../models/error-types";
 
 export class MealsController {
   constructor(private readonly _mealsService: MealsService) {}
@@ -20,6 +21,10 @@ export class MealsController {
 
   create: RequestHandler = async (req, res, next) => {
     try {
+      const role = req.body.user.user_role 
+      if (role != "chef")
+        throw new RoleError("Only a chef cant create meals")
+
       const mealCreateDto: MealCreateDto =
         DtoMappers.mealCreateDtoMapper.deserialize({ ...req.body });
 
@@ -33,10 +38,15 @@ export class MealsController {
 
   rate: RequestHandler = async (req, res, next) => {
     try {
+      const user = req.body.user
+      
+      if (user.user_role != "customer")
+        throw new RoleError("Only a customer cant rate meals")
+
       const mealRateDto: MealRateDto =
         DtoMappers.mealsRatesDtoMapper.deserialize({ ...req.body });
 
-      await this._mealsService.rate(mealRateDto);
+      //await this._mealsService.rate(mealRateDto, user.);
       return res.status(200).json({ message: "Meal rated successfully" });
     } catch (err) {
       next(err);

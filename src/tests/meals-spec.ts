@@ -37,7 +37,7 @@ describe("mealsService", () => {
   describe("can rate meal", () => {
     it("should pass rate validations", async () => {
       meal = MealsFactory.getMeal("meal1", "chef1", 5);
-      mealRate = MealsRatesFactory.getMealRate(1, 1, 5);
+      mealRate = MealsRatesFactory.getMealRate(1, 5);
 
       jest
         .spyOn(mockMealsRepository, "findById")
@@ -47,13 +47,13 @@ describe("mealsService", () => {
         .spyOn(mockMealsRatesRepository, "findOne")
         .mockImplementation(async () => null);
 
-      expect(async () => await mealsService.canRateMeal(mealRate)).not.toThrow();
+      expect(async () => await mealsService.canRateMeal(mealRate, 0)).not.toThrow();
     });
 
     describe("can't rate meal (invalid rate)", () => {
       it("shouldn't pass rate validations because invalid rate", async () => {
         meal = MealsFactory.getMeal("meal1", "chef1", 5);
-        mealRate = MealsRatesFactory.getMealRate(1, 1, 8);
+        mealRate = MealsRatesFactory.getMealRate(1, 8);
 
         jest
           .spyOn(mockMealsRepository, "findById")
@@ -63,7 +63,7 @@ describe("mealsService", () => {
           .spyOn(mockMealsRatesRepository, "findOne")
           .mockImplementation(async () => null);
 
-        expect(async () => await mealsService.canRateMeal(mealRate)).rejects.toThrow();
+        expect(async () => await mealsService.canRateMeal(mealRate, 0)).rejects.toThrow();
       });
 
       describe("search", () => {

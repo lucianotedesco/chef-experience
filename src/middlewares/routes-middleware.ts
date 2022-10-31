@@ -1,7 +1,9 @@
 import { Router } from "express";
 import { AuthController } from "../controllers/auth-controller";
 import { MealsController } from "../controllers/meals-controller";
+import { Chefs } from "../models/entities/chefs";
 import { ChefsRepository } from "../repositories/chefs-repository";
+import { CustomersRepository } from "../repositories/customers-repository";
 import { MealsRatesRepository } from "../repositories/meals-rates-repository";
 import { MealsRepository } from "../repositories/meals-repository";
 import { UsersRepository } from "../repositories/users-repository";
@@ -19,7 +21,11 @@ const mealsController = new MealsController(
 );
 
 const usersController = new AuthController(
-  new AuthService(new UsersRepository())
+  new AuthService(
+    new UsersRepository(),
+    new ChefsRepository(),
+    new CustomersRepository()
+  )
 );
 
 const mealsRoute = "/meals";

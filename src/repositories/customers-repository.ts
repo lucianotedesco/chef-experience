@@ -1,14 +1,13 @@
-import { MealCreateDto } from "../models/dtos/meal-create-dto";
 import { UserRegisterDto } from "../models/dtos/user-register-dto";
-import { Chefs } from "../models/entities/chefs";
+import { Customers } from "../models/entities/customers";
 
-export class ChefsRepository {
+export class CustomersRepository {
   async findById(id: number) {
-    return Chefs.findByPk(id);
+    return Customers.findByPk(id);
   }
 
   async create(dto: UserRegisterDto, userId: number) {
-    return Chefs.create({
+    return Customers.create({
       name: dto.username,
       user_id: userId,
     });

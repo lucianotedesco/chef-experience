@@ -1,3 +1,5 @@
+export class RoleError extends Error {}
+
 export class AuthError extends Error {}
 
 export class BusinessError extends Error {}

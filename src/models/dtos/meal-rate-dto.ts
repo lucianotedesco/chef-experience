@@ -6,8 +6,5 @@ export class MealRateDto {
   meal_id: number;
 
   @include()
-  customer_id: number;
-
-  @include()
   rate: number;
 }

@@ -4,20 +4,20 @@ import { MealRateDto } from "../models/dtos/meal-rate-dto";
 import { DtoMappers } from "../config/dto-mapper-config";
 
 export class MealsRatesRepository {
-  async create(dto: MealRateDto) {
+  async create(dto: MealRateDto, customerId: number) {
     return MealsRates.create({
       meal_id: dto.meal_id,
-      customer_id: dto.customer_id,
+      customer_id: customerId,
       rate: dto.rate,
     });
   }
 
-  async findOne(reqBody) {
+  async findOne(mealId: number, customerId: number) {
     const mealRate = await MealsRates.findOne({
       where: {
         [Op.and]: [
-          { meal_id: reqBody.meal_id },
-          { customer_id: reqBody.customer_id },
+          { meal_id: mealId },
+          { customer_id: customerId },
         ],
       },
     });

@@ -17,4 +17,4 @@ export const Customers = sequelize.define(
 Customers.belongsTo(Users, {
   foreignKey: "user_id",
   targetKey: "id",
-});
+});   

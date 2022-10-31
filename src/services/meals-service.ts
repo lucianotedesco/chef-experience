@@ -29,22 +29,22 @@ export class MealsService {
       throw new BusinessError("Can't found a chef with the given id");
   }
 
-  async rate(dto: MealRateDto) {
-    await this.canRateMeal(dto);
-    await this._mealsRatesRepository.create(dto);
+  async rate(dto: MealRateDto, customerId: number) {
+    await this.canRateMeal(dto, customerId);
+    await this._mealsRatesRepository.create(dto, customerId);
 
     const avg = await this.getCurrentAverage(dto.meal_id);
     return await this._mealsRepository.saveAvg(dto.meal_id, avg);
   }
 
-  async canRateMeal(dto) {
+  async canRateMeal(dto: MealRateDto, customerId: number) {
     const validRates = [1, 2, 3, 4, 5];
 
     const meal = await this._mealsRepository.findById(dto.meal_id);
     if (!meal)
       throw new BusinessError("Can't find a meal for rate with the given id");
 
-    const previousRate = await this._mealsRatesRepository.findOne(dto);
+    const previousRate = await this._mealsRatesRepository.findOne(dto.meal_id, customerId);
     if (previousRate)
       throw new BusinessError("You can't rate a meal more than once");
 

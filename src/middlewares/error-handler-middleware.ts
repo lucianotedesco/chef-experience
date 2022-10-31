@@ -3,9 +3,12 @@ import {
   InternalError,
   DtoError,
   AuthError,
+  RoleError,
 } from "../models/error-types";
 
 const errorHandler = (res, err) => {
+  if (err instanceof RoleError)
+    return res.status(401).json({ role_error: err.message});
   if (err instanceof AuthError)
     return res.status(401).json({ error: "Auth Error: Ensure you are logged in and using the token on the request"});
   if (err instanceof DtoError)
