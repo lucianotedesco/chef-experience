@@ -39,14 +39,14 @@ export class MealsRepository {
     return meals.map(m => DtoMappers.MealDtoMapper.serialize(m));
   }
 
-  async create(dto: MealCreateDto) {
+  async create(dto: MealCreateDto, chef_id: number) {
     return Meals.create({
       description: dto.description,
-      chef_id: dto.chef_id,
+      chef_id: chef_id,
     });
   }
 
   async saveAvg(mealId: number, avg: number) {
-    return Meals.update({ rate_avg: avg }, { where: { id: mealId } });
+    return Meals.update({ rate_avg: Math.round(avg) }, { where: { id: mealId } });
   }
 }
