@@ -1,3 +1,4 @@
+import { DtoMappers } from "../config/dto-mapper-config";
 import { MealCreateDto } from "../models/dtos/meal-create-dto";
 import { UserRegisterDto } from "../models/dtos/user-register-dto";
 import { Users } from "../models/entities/users";
@@ -11,13 +12,15 @@ export class UsersRepository {
     return Users.create({
       username: dto.username,
       password: hashedPassword,
-      user_role: dto.role
+      user_role: dto.user_role
     });
   }
 
   async findOneByUsername(username: string) {
-    return Users.findOne({
+    const user = await Users.findOne({
       where: { username: username },
     });
+
+    return DtoMappers.userRegisterDtoMapper.serialize(user);
   }
 }

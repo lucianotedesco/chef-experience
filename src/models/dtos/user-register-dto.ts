@@ -1,5 +1,4 @@
-import { dto, include } from "dto-mapper";
-import { EnumDataType } from "sequelize";
+import { dto, include, mapTo } from "dto-mapper";
 
 @dto()
 export class UserRegisterDto {
@@ -10,5 +9,5 @@ export class UserRegisterDto {
   password: string;
 
   @include()
-  role: string;
+  user_role: string;
 }

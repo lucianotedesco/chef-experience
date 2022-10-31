@@ -1,7 +1,11 @@
 import { sequelize } from "./database-config";
 
-export default class StartUp {
-  static setup() {
+export default class Config {
+
+  //harcoded here for practical purpose
+  public static token = "TKN";
+
+  static startup() {
     sequelize
       .authenticate()
       .then(() => {

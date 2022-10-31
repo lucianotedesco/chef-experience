@@ -29,5 +29,6 @@ router.post(`${mealsRoute}/rate`, mealsController.rate);
 
 const authRoute = "/auth";
 router.post(`${authRoute}/register`, usersController.register);
+router.post(`${authRoute}/login`, usersController.login);
 
 export default router;

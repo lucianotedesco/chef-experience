@@ -1,4 +1,3 @@
-import { Error } from "sequelize";
 import { MealsFactory } from "../factories/meals-factory";
 import { MealsRatesFactory } from "../factories/meals-rates-factory";
 import { MealDto } from "../models/dtos/meal-dto";
