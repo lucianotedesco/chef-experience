@@ -1,6 +1,4 @@
-import { DtoMappers } from "../config/dto-mapper-config";
 import { MealCreateDto } from "../models/dtos/meal-create-dto";
-import { MealDto } from "../models/dtos/meal-dto";
 import { MealRateDto } from "../models/dtos/meal-rate-dto";
 import { BusinessError } from "../models/error-types";
 import { ChefsRepository } from "../repositories/chefs-repository";
@@ -15,11 +13,9 @@ export class MealsService {
   ) {}
 
   async getAll(chef_id?: number) {
-    const meals = chef_id
+    return chef_id
       ? await this._mealsRepository.findByChefId(chef_id)
       : await this._mealsRepository.findAll();
-
-    return meals.map(m => DtoMappers.MealDtoMapper.serialize(m));
   }
 
   async create(dto: MealCreateDto) {
@@ -41,7 +37,7 @@ export class MealsService {
     return await this._mealsRepository.saveAvg(dto.meal_id, avg);
   }
 
-  private async canRateMeal(dto) {
+  async canRateMeal(dto) {
     const validRates = [1, 2, 3, 4, 5];
 
     const meal = await this._mealsRepository.findById(dto.meal_id);

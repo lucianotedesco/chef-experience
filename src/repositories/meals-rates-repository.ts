@@ -1,6 +1,7 @@
 import { Op } from "sequelize";
 import { MealsRates } from "../models/entities/meals-rates";
 import { MealRateDto } from "../models/dtos/meal-rate-dto";
+import { DtoMappers } from "../config/dto-mapper-config";
 
 export class MealsRatesRepository {
   async create(dto: MealRateDto) {
@@ -12,7 +13,7 @@ export class MealsRatesRepository {
   }
 
   async findOne(reqBody) {
-    return MealsRates.findOne({
+    const mealRate = await MealsRates.findOne({
       where: {
         [Op.and]: [
           { meal_id: reqBody.meal_id },
@@ -20,6 +21,8 @@ export class MealsRatesRepository {
         ],
       },
     });
+
+    return DtoMappers.MealDtoMapper.serialize(mealRate);
   }
 
   async findByMealIdAndCountAll(mealId: number) {

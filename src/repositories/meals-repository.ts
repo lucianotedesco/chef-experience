@@ -1,14 +1,17 @@
+import { DtoMappers } from "../config/dto-mapper-config";
 import { MealCreateDto } from "../models/dtos/meal-create-dto";
 import { Chefs } from "../models/entities/chefs";
 import { Meals } from "../models/entities/meals";
 
 export class MealsRepository {
   async findById(id: number) {
-    return Meals.findByPk(id);
+    const meal = await Meals.findByPk(id);
+
+    return DtoMappers.MealDtoMapper.serialize(meal);
   }
 
   async findByChefId(chef_id: number) {
-    return Meals.findAll({
+    const meals = await Meals.findAll({
       include: [
         {
           model: Chefs,
@@ -18,10 +21,12 @@ export class MealsRepository {
       where: { chef_id: chef_id },
       raw: true,
     });
+
+    return meals.map(m => DtoMappers.MealDtoMapper.serialize(m));
   }
 
   async findAll() {
-    return Meals.findAll({
+    const meals = await Meals.findAll({
       include: [
         {
           model: Chefs,
@@ -30,16 +35,9 @@ export class MealsRepository {
       ],
       raw: true,
     });
-  }
 
-  // async findByChefId(chef_id: number) {
-  //   return MealsRates.findAll({
-  //     include: [{
-  //       model: Meals,
-  //       where: {chef_id: chef_id}
-  //      }]
-  //     })
-  // }
+    return meals.map(m => DtoMappers.MealDtoMapper.serialize(m));
+  }
 
   async create(dto: MealCreateDto) {
     return Meals.create({

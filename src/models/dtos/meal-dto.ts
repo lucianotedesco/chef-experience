@@ -4,7 +4,7 @@ import { dto, include, mapTo } from "dto-mapper";
 export class MealDto {
   @include()
   @mapTo('chef.name')
-  Chef_name: number;
+  Chef_name: string;
 
   @include()
   @mapTo('description')
