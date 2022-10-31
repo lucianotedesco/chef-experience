@@ -24,7 +24,6 @@ const usersController = new AuthController(
 
 const mealsRoute = "/meals";
 router.get(`${mealsRoute}/`, mealsController.getAll);
-router.get(`${mealsRoute}/rates`, mealsController.getAllRates);
 router.post(`${mealsRoute}/`, mealsController.create);
 router.post(`${mealsRoute}/rate`, mealsController.rate);
 

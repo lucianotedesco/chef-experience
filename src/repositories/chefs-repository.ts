@@ -8,7 +8,7 @@ export class ChefsRepository {
 
   async create(dto: MealCreateDto) {
     return Chefs.create({
-      name: dto.name,
+      name: dto.description,
       chef_id: dto.chef_id
     });
   }

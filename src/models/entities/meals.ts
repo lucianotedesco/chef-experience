@@ -5,11 +5,12 @@ import { Chefs } from "./chefs";
 export const Meals = sequelize.define(
   "meals",
   {
-    name: {
+    description: {
       type: DataType.TEXT,
     },
     rate_avg: {
       type: DataType.INTEGER,
+      defaultValue: 0,
     }
   },
   {

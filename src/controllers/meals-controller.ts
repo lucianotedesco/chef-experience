@@ -18,17 +18,6 @@ export class MealsController {
     }
   };
 
-  getAllRates: RequestHandler = async (req, res, next) => {
-    try {
-      const chefId = req.query.chef_id ? Number(req.query.chef_id) : null;
-      const meals = await this._mealsService.getAll(chefId);
-
-      return res.status(200).json({ meals: meals });
-    } catch (err) {
-      next(err);
-    }
-  };
-
   create: RequestHandler = async (req, res, next) => {
     try {
       const mealCreateDto: MealCreateDto =
