@@ -3,12 +3,14 @@ import { dto, include, mapTo } from "dto-mapper";
 @dto()
 export class MealDto {
   @include()
-  description: string;
-
-  @include()
   @mapTo('chef.name')
-  chef_name: number;
+  Chef_name: number;
 
   @include()
-  rate_avg: number;
+  @mapTo('description')
+  Meal: string;
+
+  @include()
+  @mapTo('rate_avg')
+  Rating: number;
 }
