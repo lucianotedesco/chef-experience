@@ -17,10 +17,8 @@ export class UsersRepository {
   }
 
   async findOneByUsername(username: string) {
-    const user = await Users.findOne({
+    return Users.findOne({
       where: { username: username },
     });
-
-    return DtoMappers.userRegisterDtoMapper.serialize(user);
   }
 }

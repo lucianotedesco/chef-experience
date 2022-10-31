@@ -2,8 +2,10 @@ import { UserRegisterDto } from "../models/dtos/user-register-dto";
 import { Customers } from "../models/entities/customers";
 
 export class CustomersRepository {
-  async findById(id: number) {
-    return Customers.findByPk(id);
+  async findByUserId(userId: number) {
+    return Customers.findOne({
+      where: { user_id: userId },
+    });
   }
 
   async create(dto: UserRegisterDto, userId: number) {

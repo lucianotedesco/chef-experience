@@ -21,14 +21,17 @@ export class MealsController {
 
   create: RequestHandler = async (req, res, next) => {
     try {
-      const role = req.body.user.user_role 
-      if (role != "chef")
+      const user = req["user"]
+      if (!user)
+        throw new AuthError();
+
+      if (user.user_role != "chef")
         throw new RoleError("Only a chef cant create meals")
 
       const mealCreateDto: MealCreateDto =
         DtoMappers.mealCreateDtoMapper.deserialize({ ...req.body });
 
-      await this._mealsService.create(mealCreateDto);
+      await this._mealsService.create(mealCreateDto, user.id);
 
       return res.status(200).json({ message: "Meal created successfully" });
     } catch (err) {
@@ -38,7 +41,9 @@ export class MealsController {
 
   rate: RequestHandler = async (req, res, next) => {
     try {
-      const user = req.body.user
+      const user = req["user"]
+      if (!user)
+        throw new AuthError();
       
       if (user.user_role != "customer")
         throw new RoleError("Only a customer cant rate meals")
@@ -46,7 +51,7 @@ export class MealsController {
       const mealRateDto: MealRateDto =
         DtoMappers.mealsRatesDtoMapper.deserialize({ ...req.body });
 
-      //await this._mealsService.rate(mealRateDto, user.);
+      await this._mealsService.rate(mealRateDto, user.id);
       return res.status(200).json({ message: "Meal rated successfully" });
     } catch (err) {
       next(err);

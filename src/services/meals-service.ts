@@ -1,7 +1,8 @@
 import { MealCreateDto } from "../models/dtos/meal-create-dto";
 import { MealRateDto } from "../models/dtos/meal-rate-dto";
-import { BusinessError } from "../models/error-types";
+import { BusinessError, InternalError } from "../models/error-types";
 import { ChefsRepository } from "../repositories/chefs-repository";
+import { CustomersRepository } from "../repositories/customers-repository";
 import { MealsRatesRepository } from "../repositories/meals-rates-repository";
 import { MealsRepository } from "../repositories/meals-repository";
 
@@ -9,7 +10,8 @@ export class MealsService {
   constructor(
     private readonly _mealsRepository: MealsRepository,
     private readonly _mealsRatesRepository: MealsRatesRepository,
-    private readonly _chefsRepository: ChefsRepository
+    private readonly _chefsRepository: ChefsRepository,
+    private readonly _customerRepository: CustomersRepository
   ) {}
 
   async getAll(chef_id?: number) {
@@ -18,33 +20,37 @@ export class MealsService {
       : await this._mealsRepository.findAll();
   }
 
-  async create(dto: MealCreateDto) {
-    await this.canCreateMeal(dto);
+  async create(dto: MealCreateDto, userId: number) {
+    await this.canCreateMeal(userId);
     return await this._mealsRepository.create(dto);
   }
 
-  private async canCreateMeal(dto: MealCreateDto) {
-    const chefExists = await this._chefsRepository.findById(dto.chef_id);
-    if (!chefExists)
-      throw new BusinessError("Can't found a chef with the given id");
+  private async canCreateMeal(userId) {
+    const chef = await this._chefsRepository.findByUserId(userId);
+    if (!chef)
+      throw new InternalError("Can't find chef for this user")
   }
 
-  async rate(dto: MealRateDto, customerId: number) {
-    await this.canRateMeal(dto, customerId);
-    await this._mealsRatesRepository.create(dto, customerId);
+  async rate(dto: MealRateDto, userId: number) {
+    const customer = await this._customerRepository.findByUserId(userId)
+    if (!customer)
+      throw new InternalError("Can't find customer for this user")
+
+    await this.canRateMeal(dto, userId);
+    await this._mealsRatesRepository.create(dto, customer["id"]);
 
     const avg = await this.getCurrentAverage(dto.meal_id);
     return await this._mealsRepository.saveAvg(dto.meal_id, avg);
   }
 
-  async canRateMeal(dto: MealRateDto, customerId: number) {
+  async canRateMeal(dto: MealRateDto, userId: number) {
     const validRates = [1, 2, 3, 4, 5];
 
     const meal = await this._mealsRepository.findById(dto.meal_id);
     if (!meal)
       throw new BusinessError("Can't find a meal for rate with the given id");
 
-    const previousRate = await this._mealsRatesRepository.findOne(dto.meal_id, customerId);
+    const previousRate = await this._mealsRatesRepository.findOne(dto.meal_id, userId);
     if (previousRate)
       throw new BusinessError("You can't rate a meal more than once");
 

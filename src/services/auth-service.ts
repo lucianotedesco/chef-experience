@@ -38,11 +38,11 @@ export class AuthService {
 
     if (!existingUser) throw new BusinessError("Invalid or non-existent user");
 
-    const password_valid = await compare(dto.password, existingUser.password);
+    const password_valid = await compare(dto.password, existingUser["password"]);
     if (!password_valid) throw new BusinessError("Incorrect password");
 
     return sign(
-      { id: dto.username, role: existingUser.user_role },
+      { id: existingUser["id"], user_name: dto.username , user_role: existingUser["user_role"] },
       Config.token
     );
   }

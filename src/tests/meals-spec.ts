@@ -3,6 +3,7 @@ import { MealsRatesFactory } from "../factories/meals-rates-factory";
 import { MealDto } from "../models/dtos/meal-dto";
 import { MealRateDto } from "../models/dtos/meal-rate-dto";
 import { ChefsRepository } from "../repositories/chefs-repository";
+import { CustomersRepository } from "../repositories/customers-repository";
 import { MealsRatesRepository } from "../repositories/meals-rates-repository";
 import { MealsRepository } from "../repositories/meals-repository";
 import { MealsService } from "../services/meals-service";
@@ -30,7 +31,8 @@ describe("mealsService", () => {
     mealsService = new MealsService(
       mockMealsRepository,
       mockMealsRatesRepository,
-      new ChefsRepository()
+      new ChefsRepository(), 
+      new CustomersRepository()
     );
   });
 

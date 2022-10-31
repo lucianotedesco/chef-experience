@@ -16,7 +16,8 @@ const mealsController = new MealsController(
   new MealsService(
     new MealsRepository(),
     new MealsRatesRepository(),
-    new ChefsRepository()
+    new ChefsRepository(),
+    new CustomersRepository()
   )
 );
 
