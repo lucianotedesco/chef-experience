@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { AuthController } from "../controllers/auth-controller";
 import { MealsController } from "../controllers/meals-controller";
-import { Chefs } from "../models/entities/chefs";
 import { ChefsRepository } from "../repositories/chefs-repository";
 import { CustomersRepository } from "../repositories/customers-repository";
 import { MealsRatesRepository } from "../repositories/meals-rates-repository";

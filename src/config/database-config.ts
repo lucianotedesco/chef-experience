@@ -1,4 +1,4 @@
-import { DataType, Sequelize } from "sequelize-typescript";
+import { Sequelize } from "sequelize-typescript";
 
 export const sequelize = new Sequelize(
   "chef_experience_db",

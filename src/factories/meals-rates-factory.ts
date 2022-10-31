@@ -1,4 +1,3 @@
-import { MealDto } from "../models/dtos/meal-dto"
 import { MealRateDto } from "../models/dtos/meal-rate-dto";
 
 export class MealsRatesFactory{

@@ -1,4 +1,3 @@
-import { MealCreateDto } from "../models/dtos/meal-create-dto";
 import { UserRegisterDto } from "../models/dtos/user-register-dto";
 import { Chefs } from "../models/entities/chefs";
 

@@ -2,7 +2,7 @@ import { sequelize } from "./database-config";
 
 export default class Config {
 
-  //harcoded here for practical purpose
+  //harcoded here for practical purposes
   public static token = "TKN";
 
   static startup() {
